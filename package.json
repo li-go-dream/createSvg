@@ -1,0 +1,82 @@
+{
+  "name": "createsvg",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Create SVG files easily",
+  "author": "1781676540@qq.com",
+  "type": "module",
+  "main": "electron/main.js",
+  "scripts": {
+    "start": "concurrently -k \"npm run dev\" \"wait-on http://localhost:5173 && cross-env NODE_ENV=development electron .\"",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "e:start": "cross-env NODE_ENV=development electron .",
+    "e:build": "vite build && electron-builder",
+    "e:build:win": "vite build && electron-builder --win",
+    "e:build:mac": "vite build && electron-builder --mac",
+    "e:build:linux": "vite build && electron-builder --linux",
+    "e:build:dir": "vite build && electron-builder --dir",
+    "postinstall": "electron-builder install-app-deps",
+    "clean": "rimraf dist dist_electron node_modules/.vite node_modules/.cache",
+    "clean:all": "rimraf dist dist_electron node_modules/.vite node_modules/.cache && rm -rf $HOME/Library/Caches/electron $HOME/Library/Caches/electron-builder"
+  },
+  "dependencies": {
+    "@ant-design/icons-vue": "^7.0.1",
+    "ant-design-vue": "^4.2.6",
+    "exceljs": "^4.4.0",
+    "vue": "^3.5.42",
+    "vue-router": "^5.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.8",
+    "concurrently": "^10.0.5",
+    "cross-env": "^10.1.0",
+    "electron": "^44.4.3",
+    "electron-builder": "^26.15.3",
+    "sass": "^1.105.0",
+    "vite": "^8.3.0",
+    "wait-on": "^9.1.0"
+  },
+  "build": {
+    "appId": "com.example.createSvg",
+    "productName": "createSvg",
+    "copyright": "Copyright © 2026 LC",
+    "directories": {
+      "output": "dist_electron",
+      "buildResources": "build"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "package.json"
+    ],
+    "asar": true,
+    "electronLanguages": ["en-US", "zh-CN"],
+    "mac": {
+      "target": ["dmg", "zip"],
+      "category": "public.app-category.developer-tools",
+      "icon": "build/icon.png"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "portable",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "build/icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    },
+    "linux": {
+      "target": ["AppImage"],
+      "category": "Development",
+      "icon": "build/icon.png"
+    }
+  }
+}
