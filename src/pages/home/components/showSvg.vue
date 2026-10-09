@@ -24,8 +24,8 @@
 </template>
 
 <script setup>
-import { DownloadOutlined } from '@ant-design/icons-vue';
-import { message } from 'ant-design-vue';
+import { DownloadOutlined } from '@antdv-next/icons';
+import { message } from 'antdv-next';
 
 const props = defineProps({
   svgList: {

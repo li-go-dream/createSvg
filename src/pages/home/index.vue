@@ -32,9 +32,8 @@
               <a-select
                 ref="select"
                 v-model:value="formState.icon"
-              >
-                <a-select-option v-for="item in typeArrs" :value="item.value">{{ item.label }}</a-select-option>
-              </a-select>
+                :options="typeArrs"
+              />
             </a-form-item>
             <a-form-item v-else label="上文本">
               <a-input v-model:value="formState.upText" placeholder="图标上方文本" />
@@ -46,11 +45,14 @@
               <a-input v-model:value="formState.fileName" placeholder="文件名称" />
             </a-form-item>
           </template>
+          <a-form-item label="背景颜色">
+            <a-color-picker v-model:value="formState.bgColor" value-format="hex" disabled-alpha show-text />
+          </a-form-item>
           <a-form-item label="导出目录">
-            <a-input-group compact>
+            <a-space-compact compact>
               <a-input v-model:value="formState.downUrl" disabled style="width: calc(100% - 64px)" placeholder="选择导出目录" />
               <a-button type="primary" @click="chooseDirectory">选择</a-button>
-            </a-input-group>
+            </a-space-compact>
           </a-form-item>
           <template v-if="formState.createType === '2'">
             <a-form-item label="导入文件">
@@ -83,7 +85,7 @@
         </a-button>
       </div>
       <div class="show-svg-list">
-        <a-spin :spinning="spinning" tip="生成中...">
+        <a-spin :spinning="spinning" description="生成中...">
           <ShowSvg v-if="svgList.length > 0" :svgList="svgList" :filePath="formState.downUrl" />
           <a-empty style="margin-top: 160px;" v-else description="暂无数据" />
         </a-spin>
@@ -93,9 +95,9 @@
 </template>
 <script setup>
   import { reactive, onMounted, ref, toRaw } from 'vue'
-  import { DownloadOutlined } from '@ant-design/icons-vue';
+  import { DownloadOutlined } from '@antdv-next/icons';
   import ShowSvg from './components/showSvg.vue'
-  import { message } from 'ant-design-vue';
+  import { message } from 'antdv-next';
   import { typeArrs } from './utils.js'
   import { generateIcon } from '@/utils/index.js'
 
@@ -106,6 +108,7 @@
     upText: '',
     downText: '',
     fileName: '',
+    bgColor: '#00d000',
     downUrl: ''
   })
   const spinning = ref(false)
@@ -142,7 +145,7 @@
     if (formState.createType = '1') {// 生成单个图标
       if (formState.type === '1') {// 文字图标
         spinning.value = true
-        let svg = generateIcon(formState.upText,formState.downText)
+        let svg = generateIcon(formState.upText,formState.downText, { bgColor: formState.bgColor })
         svgList.value = [
           {
             id: '1',
@@ -154,7 +157,7 @@
       } else {// 图片图标
         spinning.value = true
         let currentIcon = typeArrs.find(it => it.value === formState.icon)
-        let svg = generateIcon(currentIcon.icon,formState.downText)
+        let svg = generateIcon(currentIcon.icon,formState.downText, { bgColor: formState.bgColor })
         svgList.value = [
           {
             id: '1',
@@ -185,9 +188,9 @@
           if (item.type === '图标') {
             let currentIcon = typeArrs.find(it => it.label === item.typeName)
             if (!currentIcon) return false
-            svg = generateIcon(currentIcon.icon, item.downText)
+            svg = generateIcon(currentIcon.icon, item.downText, { bgColor: formState.bgColor })
           } else if (item.type === '文字') {
-            svg = generateIcon(item.upText, item.downText)
+            svg = generateIcon(item.upText, item.downText, { bgColor: formState.bgColor })
           }
           if (!svg) return false
           return {

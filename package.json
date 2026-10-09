@@ -22,8 +22,8 @@
     "clean:all": "rimraf dist dist_electron node_modules/.vite node_modules/.cache && rm -rf $HOME/Library/Caches/electron $HOME/Library/Caches/electron-builder"
   },
   "dependencies": {
-    "@ant-design/icons-vue": "^7.0.1",
-    "ant-design-vue": "^4.2.6",
+    "@antdv-next/icons": "^1.1.2",
+    "antdv-next": "^1.6.0",
     "exceljs": "^4.4.0",
     "vue": "^3.5.42",
     "vue-router": "^5.3.1"
@@ -52,9 +52,15 @@
       "package.json"
     ],
     "asar": true,
-    "electronLanguages": ["en-US", "zh-CN"],
+    "electronLanguages": [
+      "en-US",
+      "zh-CN"
+    ],
     "mac": {
-      "target": ["dmg", "zip"],
+      "target": [
+        "dmg",
+        "zip"
+      ],
       "category": "public.app-category.developer-tools",
       "icon": "build/icon.png"
     },
@@ -62,7 +68,9 @@
       "target": [
         {
           "target": "portable",
-          "arch": ["x64"]
+          "arch": [
+            "x64"
+          ]
         }
       ],
       "icon": "build/icon.png"
@@ -74,7 +82,9 @@
       "createStartMenuShortcut": true
     },
     "linux": {
-      "target": ["AppImage"],
+      "target": [
+        "AppImage"
+      ],
       "category": "Development",
       "icon": "build/icon.png"
     }
